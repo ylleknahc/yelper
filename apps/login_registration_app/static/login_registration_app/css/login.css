@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.inline {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.display-4 {
+    font-weight: bold;
+}
+
+.header {
+    border-bottom: 0.1rem solid black;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.header .nav {
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+}
+
+#dashboard {
+    margin-left: 35rem;
+    border-right: 0.1rem solid black;
+    padding-right: 1rem;
+}
+
+.auth-form {
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px 40px;
+}
+
+label, input {
+    display: block;
+}
+
+button {
+    margin: 10px auto;
+}

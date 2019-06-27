@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Yelper Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'login_registration_app/css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="inline display-4">Yelper</h1>
+        </div>
+        <div class="auth-form card">
+            <h1>Login</h1>
+            <form action="/login" method="post" class="form-horizontal card-body">
+                {% csrf_token %}
+                <label for="email">Email</label>
+                <input type="text" name="email">
+                {% if messages %}
+                {% for message in messages %}
+                    {% if message.extra_tags == 'email' %}
+                        <p class="alert alert-danger">{{message}}</p>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                <label for="password">Password</label>
+                <input type="password" name="password">
+                {% if messages %}
+                {% for message in messages %}
+                    {% if message.extra_tags == 'password' %}
+                        <p class="alert alert-danger">{{message}}</p>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                <button class="btn btn-primary">Login</button>
+            </form>
+            <p class="inline">Not a member?</p>
+            <a class="inline" href="/register">Sign up!</a>
+        </div>
+    </div>
+</body>
+</html>
