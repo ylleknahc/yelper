@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.inline {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.display-4 {
+    font-weight: bold;
+}
+
+.header {
+    border-bottom: 0.1rem solid black;
+    padding-top: 2rem;
+    /* padding-bottom: 2rem; */
+}
+
+.header .navbar {
+    margin-left: 48rem;
+    margin-top: 1rem;
+}
+
+.main {
+    margin-top: 1rem;
+}

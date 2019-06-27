@@ -29,7 +29,45 @@ def create(request):
         return redirect(new)
     creator = current_user(request)
     Restaurant.objects.new(request.POST, creator)
-    return redirect(index)
+    return redirect(show)
+
+def show(request, id):
+    user = current_user(request)
+    restaurant = Restaurant.objects.get(id=id)
+    reviews = restaurant.reviews.all()
+    context = {
+        'user': user,
+        'restaurant': restaurant,
+        'reviews': reviews,
+    }
+    return render(request, "yelper_app/show.html", context)
+
+def create_review(request, id):
+    errors = Review.objects.validator(request.POST)
+
+    if len(errors) > 0:
+        for key, error in errors.items():
+            messages.error(request, error, extra_tags=key)
+        return redirect(show, id=id)
+    reviewer = current_user(request)
+    restaurant = Restaurant.objects.get(id=id)
+    Review.objects.new(request.POST, reviewer, restaurant)
+    return redirect(show, id=id)
+
+def create_comment(request, id):
+    commenter = current_user(request)
+    review = Review.objects.get(id=id)
+    restaurant_id = review.restaurant.id
+
+    errors = Comment.objects.validator(request.POST)
+
+    if len(errors) > 0:
+        for key, error in errors.items():
+            messages.error(request, error, extra_tags=key)
+        return redirect(show, id=restaurant_id)
+
+    Comment.objects.new(request.POST, commenter, review)
+    return redirect(show, id=restaurant_id)
 
 def current_user(request):
     user_id = request.session['user_id']

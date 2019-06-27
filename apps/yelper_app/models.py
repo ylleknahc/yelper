@@ -38,6 +38,43 @@ class RestaurantManager(models.Manager):
             errors["description"] = "Description should be at least 5 characters long"
         return errors
 
+class ReviewManager(models.Manager):
+    def new(self, postData, user, restaurant):
+        content = postData["content"]
+        rating = postData["rating"]
+
+        Review.objects.create(content=content,
+                            rating=rating,
+                            reviewer=user,
+                            restaurant=restaurant)
+
+    def validator(self, postData):
+        content = postData["content"]
+        rating = postData["rating"]
+
+        errors = {}
+        if not content:
+            errors["content"] = "Content cannot be blank"
+        elif len(content) < 5:
+            errors["content"] = "Content should be at least 5 characters long"
+        if rating == "none":
+            errors["rating"] = "Please give a rating"
+        return errors
+
+class CommentManager(models.Manager):
+    def new(self, postData, user, review):
+        content = postData["comment_input"]
+
+        Comment.objects.create(content=content, commenter=user, review=review)
+
+    def validator(self, postData):
+        content = postData["comment_input"]
+
+        errors = {}
+        if not content:
+            errors["content"] = "You cannot submit nothing in the comment"
+        return errors
+
 class Restaurant(BaseModel):
     name = models.CharField(max_length=60)
     location = models.CharField(max_length=45)
@@ -50,11 +87,13 @@ class Review(BaseModel):
     rating = models.IntegerField()
     reviewer = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, related_name="reviews", on_delete=models.CASCADE)
+    objects = ReviewManager()
 
 class Comment(BaseModel):
     content = models.TextField()
     commenter = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
     review = models.ForeignKey(Review, related_name="comments", on_delete=models.CASCADE)
+    objects = CommentManager()
 
 class Like(BaseModel):
     user = models.ForeignKey(User, related_name="likes", on_delete=models.CASCADE)
