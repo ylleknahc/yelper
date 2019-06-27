@@ -19,7 +19,7 @@ def registration(request):
         request.session['user_id'] = user.id
         # else:
             # request.session['user_id'] = user.id
-        return redirect('/dashboard')
+        return redirect('/restaurants')
     else:
         return redirect(register)
 
@@ -29,7 +29,7 @@ def login(request):
     if valid_form(request, errors):
         user = User.objects.fetch_user(request.POST)
         request.session['user_id'] = user.id
-        return redirect('/dashboard')
+        return redirect('/restaurants')
     else:
         return redirect(index)
 
