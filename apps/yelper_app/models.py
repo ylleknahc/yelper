@@ -10,6 +10,16 @@ class BaseModel(models.Model):
         abstract = True
 
 class RestaurantManager(models.Manager):
+    def update(self, postData, restaurant):
+        name = postData["name"]
+        location = postData["location"]
+        description = postData["description"]
+
+        restaurant.name = name
+        restaurant.location = location
+        restaurant.description = description
+        restaurant.save()
+
     def new(self, postData, user):
         name = postData["name"]
         location = postData["location"]

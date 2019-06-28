@@ -15,7 +15,6 @@
 .header {
     border-bottom: 0.1rem solid black;
     padding-top: 2rem;
-    /* padding-bottom: 2rem; */
 }
 
 .header .navbar {
@@ -25,4 +24,15 @@
 
 .main {
     margin-top: 1rem;
+}
+
+.added-restaurants, .favorited-restaurants {
+    /* width: 50rem; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inline-link {
+    /* text-align: right; */
+    float: right;
 }

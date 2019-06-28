@@ -69,6 +69,41 @@ def create_comment(request, id):
     Comment.objects.new(request.POST, commenter, review)
     return redirect(show, id=restaurant_id)
 
+def edit(request, id):
+    user = current_user(request)
+    restaurant = Restaurant.objects.get(id=id)
+    if user.id is restaurant.added_by.id:
+        context = {
+            'user': user,
+            'restaurant': restaurant
+        }
+        return render(request, "yelper_app/edit.html", context)
+    else:
+        return redirect(index)
+
+def update(request, id):
+    errors = Restaurant.objects.validator(request.POST)
+
+    if len(errors) > 0:
+        for key, error in errors.items():
+            messages.error(request, error, extra_tags=key)
+        return redirect(edit, id=id)
+
+    restaurant = Restaurant.objects.get(id=id)
+    Restaurant.objects.update(request.POST, restaurant)
+    return redirect(show, id=id)
+
+def my_restaurants(request, id):
+    user = current_user(request)
+    user_added_restaurants = user.restaurants.all()
+    user_favorited_restaurants = user.favorites.all()
+    context = {
+        'user': user,
+        'added_restaurants': user_added_restaurants,
+        'favorited_restaurants': user_favorited_restaurants
+    }
+    return render(request, "yelper_app/user_favorite.html", context)
+
 def current_user(request):
     user_id = request.session['user_id']
     user = User.objects.get(id=user_id)
